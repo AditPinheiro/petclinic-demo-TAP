@@ -1,4 +1,9 @@
 pipeline{
+  environment{
+    registry ="aditpinheiro/petclinic"
+    registryCredential='docker_hub_aditpinheiro'
+    dockerImage =''
+  }
   agent any //jenkins job can run on any system (windows/ubuntu)
   
   stages{
@@ -17,6 +22,9 @@ pipeline{
     stage ('Build Docker Image'){
       steps{
         echo "Building Docker Image"
+        script{
+          dockerImage = docker.build registry + $BUILD_NUMBER
+        }
       }
     }
     stage ('Push Docker Image'){
