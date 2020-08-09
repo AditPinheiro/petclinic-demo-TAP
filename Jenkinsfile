@@ -31,7 +31,7 @@ pipeline{
       steps{
         echo "Pushing Docker Image"
         script{
-            withDockerRegistry('',registryCredential) {
+            docker.withRegistry('',registryCredential) {
                      dockerImage.push()
                 }
         }
