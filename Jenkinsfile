@@ -1,9 +1,9 @@
 pipeline{
-  /*environment{
+  environment{
     registry ="aditpinheiro/petclinic"
     registryCredential='docker_hub_aditpinheiro'
     dockerImage =''
-  }*/
+  }
   agent any //jenkins job can run on any system (windows/ubuntu)
   
   stages{
