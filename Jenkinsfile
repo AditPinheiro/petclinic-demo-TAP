@@ -30,11 +30,8 @@ pipeline{
     stage ('Push Docker Image'){
       steps{
         echo "Pushing Docker Image"
-        script{
-            docker.withRegistry( '', registryCredential ) {
-                     dockerImage.push()
-                    dockerImage.push('latest')
-          }
+        withDockerRegistry([credentialsId: 'docker_hub_aditpinheiro', url:'']) {
+          sh 'docker push aditpinheiro/petclinic:latest '
         }
       }
     }
