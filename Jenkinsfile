@@ -1,44 +1,48 @@
-pipeline{
-  environment{
+pipeline {
+  environment {
     registry = "aditpinheiro/petclinic"
-    registryCredential= 'dockerhub_credentials'
+    registryCredential = 'docker_hub_aditpinheiro'
     dockerImage = ''
   }
-  agent any //jenkins job can run on any system (windows/ubuntu)
-  
+  agent any
   stages{
-    stage ('Build'){
+    stage ('Build') {
       steps{
         echo "Building Project"
         sh './mvnw package'
       }
     }
-    stage ('Archive'){
+    stage ('Archive') {
       steps{
         echo "Archiving Project"
         archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
       }
     }
-    stage ('Build Docker Image'){
+    stage ('Build Docker Image') {
       steps{
         echo "Building Docker Image"
-        script{
+        script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
       }
     }
-    stage ('Push Docker Image'){
+    stage ('Push Docker Image') {
       steps{
         echo "Pushing Docker Image"
-        withDockerRegistry([credentialsId: 'docker_hub_aditpinheiro', url:'']) {
-          sh 'docker push aditpinheiro/petclinic:latest '
+        script {
+          docker.withRegistry( '', registryCredential ) {
+              dockerImage.push()
+              dockerImage.push('latest')
+          }
         }
       }
     }
-    stage ('Deploy to Dev'){
+   /* stage ('Deploy to Dev') {
       steps{
         echo "Deploying to Dev Environment"
+        sh "docker rm -f petclinic || true"
+        sh "docker run -d --name=petclinic -p 8081:8080 prabhavagrawal/petclinic"
       }
-    }
+    }*/
   }
 }
