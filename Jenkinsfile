@@ -31,9 +31,10 @@ pipeline {
       steps{
         echo "Pushing Docker Image"
         script {         
-          sh "docker login -u 'docker_username' -p  'docker_pass' "
-          docker.push()
-          docker.push(latest)
+          docker.withRegistry( '', registryCredential ) {
+              dockerImage.push()
+              dockerImage.push('latest')
+          }
         }
       }
     }
