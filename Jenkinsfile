@@ -31,7 +31,7 @@ pipeline{
       steps{
         echo "Pushing Docker Image"
         script{
-            docker.withRegistry( registry , registryCredential ) {
+            docker.withRegistry( '', 'docker_hub_aditpinheiro' ) {
                      dockerImage.push()
           }
         }
