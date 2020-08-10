@@ -30,10 +30,10 @@ pipeline {
     stage ('Push Docker Image') {
       steps{
         echo "Pushing Docker Image"
-        script {
-          docker.withRegistry( '', registryCredential ){
-            dockerImage.push()
-          }
+        script {         
+          sh "docker login -u 'docker_username' -p  'docker_pass' "
+          docker.push()
+          docker.push(latest)
         }
       }
     }
