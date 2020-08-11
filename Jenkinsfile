@@ -27,7 +27,7 @@ pipeline {
         }
       }
     }
-    stage ('Push Docker Image') {
+    /*stage ('Push Docker Image') {
       steps{
         echo "Pushing Docker Image"
         script {         
@@ -37,13 +37,13 @@ pipeline {
           }
         }
       }
-    }
-   /* stage ('Deploy to Dev') {
+    }*/
+    stage ('Deploy to Dev') {
       steps{
         echo "Deploying to Dev Environment"
         sh "docker rm -f petclinic || true"
-        sh "docker run -d --name=petclinic -p 8081:8080 prabhavagrawal/petclinic"
+        sh "docker run -d --name=petclinic -p 8081:8080 aditpinheiro/petclinic"
       }
-    }*/
+    }
   }
 }
