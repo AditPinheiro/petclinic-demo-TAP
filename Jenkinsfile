@@ -42,7 +42,7 @@ pipeline {
       steps{
         echo "Deploying to Dev Environment"
         sh "docker rm -f petclinic || true"
-        sh "docker run -it -d --name=foodappnew -p 8081:8080 '${registry}:${BUILD_NUMBER}'"
+        sh "docker run -it -d --name=foodappnew -p 8082:8080 '${registry}:${BUILD_NUMBER}'"
       }
     }
   }
